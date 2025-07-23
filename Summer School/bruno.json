@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Summer School",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
