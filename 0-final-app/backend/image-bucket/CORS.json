@@ -1,0 +1,8 @@
+[
+  {
+    "AllowedHeaders": ["*"],
+    "AllowedMethods": ["PUT", "GET"],
+    "AllowedOrigins": ["{{YOUR_FRONTEND_BUCKET_URL}}"],
+    "ExposeHeaders": []
+  }
+]
