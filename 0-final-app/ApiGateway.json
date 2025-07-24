@@ -1,0 +1,85 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "summer-school-app",
+    "version" : "2025-07-24 11:10:12UTC"
+  },
+  "servers" : [ {
+    "url" : "https://nmbpbflhfe.execute-api.us-east-1.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : ""
+      }
+    }
+  } ],
+  "paths" : {
+    "/recipes/{id}" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /recipes/{id}"
+          }
+        }
+      },
+      "put" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PUT /recipes/{id}"
+          }
+        }
+      },
+      "delete" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for DELETE /recipes/{id}"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/recipes" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /recipes"
+          }
+        }
+      },
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /recipes"
+          }
+        }
+      }
+    },
+    "/upload" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /upload"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+  },
+  "x-amazon-apigateway-cors" : {
+    "allowMethods" : [ "DELETE", "GET", "OPTIONS", "POST", "PUT" ],
+    "allowHeaders" : [ "*", "authorization", "content-type" ],
+    "exposeHeaders" : [ "*" ],
+    "maxAge" : 0,
+    "allowCredentials" : false,
+    "allowOrigins" : [ "YOUR_FRONTEND_URL" ]
+  },
+  "x-amazon-apigateway-importexport-version" : "1.0"
+}

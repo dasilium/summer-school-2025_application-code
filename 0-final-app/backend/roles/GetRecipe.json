@@ -4,7 +4,7 @@
     {
       "Effect": "Allow",
       "Action": ["dynamodb:GetItem"],
-      "Resource": "arn:aws:dynamodb:us-east-1:250315184607:table/Recipes"
+      "Resource": "YOU_RECIPE_TABLE_ARN"
     }
   ]
 }
