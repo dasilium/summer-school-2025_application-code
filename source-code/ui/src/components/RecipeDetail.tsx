@@ -44,15 +44,6 @@ export default function RecipeDetail({
   return (
     <Container py={8} maxW="6xl">
       <VStack spacing={4} display="flex" align="stretch" mt={8}>
-        <Image
-          src={`${IMAGE_BUCKET_URL}/${recipe.imageUrl}`}
-          alt={recipe.name}
-          objectFit="cover"
-          backgroundAttachment="fixed"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          maxHeight={400}
-        />
         {recipe.imageUrl ? (
           <Image
             src={`${IMAGE_BUCKET_URL}/${recipe.imageUrl}`}
