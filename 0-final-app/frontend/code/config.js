@@ -4,5 +4,5 @@ const API_URL = "YOUR-API-URL";
 
 window.RUNTIME_CONFIG = {
   API_URL,
-  IMAGE_BUCKET_URL: `https://${IMAGE_BUCKET_REGION}.s3.${IMAGE_BUCKET_REGION}.amazonaws.com`,
+  IMAGE_BUCKET_URL: `https://${IMAGE_BUCKET_NAME}.s3.${IMAGE_BUCKET_REGION}.amazonaws.com`,
 };
