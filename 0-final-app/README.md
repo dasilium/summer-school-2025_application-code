@@ -6,15 +6,20 @@ Welcome! In this lab you will build a simple serverless backend and static front
 - One or more Lambda functions containing your business logic.
 - An API Gateway (HTTP API) that exposes those functions to the frontend.
 - An S3 bucket that hosts the static website and (optionally) stores images.
-- Proper CORS configuration and environment variables so the pieces can talk to each other.
+- Proper CORS configuration and environment variables so the components can talk to each other.
+
+> ## Use region Frankfurt (eu-central-1)
+
+> Login to your AWS account: https://dasilium.awsapps.com/start after registering for free to the invitation received by e-mail
 
 ## Configure AWS DynamoDB
 
 ### Create a new table
 - Search for "DynamoDB" in AWS Console and click on it
 - Click on "Create table"
-- Enter a name in "Table name"
-- Select a "Partition key" and if needed a "Sort Key"
+- Enter a name in "Table name", e.g. "Recipes"
+- Select a "Partition key" and if needed a "Sort Key", e.g. "id" as partition key
+- Use default table settings
 - Click on "Create table"
 
 ## Configure AWS Lambda functions
@@ -23,7 +28,7 @@ Welcome! In this lab you will build a simple serverless backend and static front
 - Search for "Lambda" in AWS Console and click on it
 - Click on "Create a function"
 - Select "Author from scratch"
-- Enter a name in "Function name"
+- Enter a name in "Function name", e.g. "get-receipts"
 - Select your "Runtime" (in our case "Node.js 22.x")
 - Click on "Create function"
 
@@ -128,6 +133,14 @@ Copy then all the files from the directory `frontend` in the S3 bucket.
 - Remove checkbox "Block all public access"
 - Click on "Save changes"
 
+### Set bucket policy
+- Open bucket
+- Select the "Permissions" tab
+- Click on "Edit" in section "Bucket policy"
+- Click "Edit"
+- Set the JSON resoure policy for the bucket to allow public read access
+- Click on "Save changes"
+
 ### Activate website hosting
 - Open bucket
 - Select the "Properties" tab
@@ -142,3 +155,20 @@ Copy then all the files from the directory `frontend` in the S3 bucket.
 - Click on "Edit" in section "Cross-origin resource sharing (CORS)"
 - Enter your CORS config in the JSON editor (in our case use the file "CORS.json")
 - Click on "Save changes"
+
+## Configure CloudWatch
+
+### Create log groups for Lambda
+- Navigate to "Log Groups"
+- Click "Create Log Group"
+- Enter log group name "/aws/lambda/'function-name'"
+
+### Configure logging for API GW
+- Navigate to "Log Groups"
+- Click "Create Log Group"
+- Enter log group name "api-gw"
+- Copy the ARN of the log group
+- Navigate to API Gateway
+- Click on your API
+- Click on "Logging" in the Monitor section
+- Enable access logging and paste the log group ARN
