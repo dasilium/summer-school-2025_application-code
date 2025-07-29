@@ -3,18 +3,23 @@ import { useToast } from "@chakra-ui/react";
 import type { RecipeFormInputs } from "../components/RecipeForm";
 import { getRecipesKey } from "./useGetRecipes";
 import { getRecipeKey } from "./useGetRecipe";
-import { API_URL } from '../config';
+import { API_URL } from "../config";
+import { useAuth } from "react-oidc-context";
 
 interface UpdateRecipeArgs {
   id: string;
   data: RecipeFormInputs;
 }
 
-const updateRecipe = async ({ id, data }: UpdateRecipeArgs) => {
+const updateRecipe = async (
+  { id, data }: UpdateRecipeArgs,
+  accessToken: string
+) => {
   const response = await fetch(`${API_URL}/recipes/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(data),
   });
@@ -29,9 +34,11 @@ const updateRecipe = async ({ id, data }: UpdateRecipeArgs) => {
 export const useUpdateRecipe = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const auth = useAuth();
 
   return useMutation<void, Error, UpdateRecipeArgs>({
-    mutationFn: updateRecipe,
+    mutationFn: (data: UpdateRecipeArgs) =>
+      updateRecipe(data, auth.user?.access_token as string),
     onSuccess: (_, { id }) => {
       toast({
         title: "Recipe saved",

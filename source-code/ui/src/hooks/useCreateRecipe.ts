@@ -2,13 +2,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@chakra-ui/react";
 import type { RecipeFormInputs } from "../components/RecipeForm";
 import { getRecipesKey } from "./useGetRecipes";
-import { API_URL } from '../config';
+import { API_URL } from "../config";
+import { useAuth } from "react-oidc-context";
 
-const getPresignedUrl = async (fileName: string, fileType: string) => {
+const getPresignedUrl = async (
+  fileName: string,
+  fileType: string,
+  accessToken: string
+) => {
   const response = await fetch(`${API_URL}/upload`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({ fileName, fileType }),
   });
@@ -20,10 +26,14 @@ const getPresignedUrl = async (fileName: string, fileType: string) => {
   return response.json();
 };
 
-const uploadImage = async (file: File): Promise<string> => {
+const uploadImage = async (
+  file: File,
+  accessToken: string
+): Promise<string> => {
   const { uploadUrl, key } = await getPresignedUrl(
     file.name,
-    file.type
+    file.type,
+    accessToken
   );
 
   const response = await fetch(uploadUrl, {
@@ -39,18 +49,19 @@ const uploadImage = async (file: File): Promise<string> => {
   return key;
 };
 
-const createRecipe = async (data: RecipeFormInputs) => {
+const createRecipe = async (data: RecipeFormInputs, accessToken: string) => {
   let imageUrl = data.imageUrl ?? null;
 
   if (data.heroImageFile && data.heroImageFile.length > 0) {
     const file = data.heroImageFile[0];
-    imageUrl = await uploadImage(file);
+    imageUrl = await uploadImage(file, accessToken);
   }
 
   const response = await fetch(`${API_URL}/recipes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({ ...data, imageUrl }),
   });
@@ -65,9 +76,11 @@ const createRecipe = async (data: RecipeFormInputs) => {
 export const useCreateRecipe = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const auth = useAuth();
 
   return useMutation({
-    mutationFn: createRecipe,
+    mutationFn: (data: RecipeFormInputs) =>
+      createRecipe(data, auth.user?.access_token as string),
     onSuccess: () => {
       toast({
         title: "Recipe published!",
